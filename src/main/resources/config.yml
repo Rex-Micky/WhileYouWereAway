@@ -1,0 +1,42 @@
+# ============================================================
+#  WhileYouWereAway  —  by Rex's Studio (studio.rexmicky.dev)
+#  Log in and get a personalized recap of everything that
+#  happened on the server while you were offline.
+# ============================================================
+
+# Don't show a recap for quick relogs shorter than this (seconds).
+min-away-seconds: 120
+
+base:
+  radius: 24                  # how close another player must be to count as "near your base"
+  visit-cooldown-seconds: 120 # don't recount the same visitor more often than this
+
+# Toggle individual recap sections on/off.
+recap:
+  show-days-passed: true
+  show-online-players: true
+  show-base-visits: true
+  show-mail: true
+  max-names: 10               # cap how many player names are listed
+
+# All messages support & colour codes and {placeholders}.
+messages:
+  prefix: "&8[&bAway&8]&r "
+  welcome-first: "&bWelcome to the server, &f{player}&b!"
+  header: "&b&lWhile you were away &7({duration}):"
+  quiet: "&7 &8• &7All quiet while you were gone."
+  days: "&7 &8• &f{days} &7in-game day(s) passed"
+  online: "&7 &8• &f{count} &7player(s) were on: {names}"
+  new-tag: " &a(new)"
+  visits: "&7 &8• &e{visitor} &7came near your base{count}"
+  mail-header: "&7 &8• &dYou have mail:"
+  mail-line: "&7      &d✉ &f{from}&7: &f{message}"
+  base-set: "&aYour base is now set to your current location."
+  mail-sent: "&aMail delivered to &f{player}&a."
+  mail-queued: "&aMail queued — &f{player}&a will see it when they next log in."
+  mail-usage: "&cUsage: /wywa mail <player> <message>"
+  mail-self: "&cYou can't send mail to yourself."
+  base-info: "&7Your base: &f{world} {x}, {y}, {z}"
+  no-base: "&7You haven't set a base yet. Stand where your base is and use &f/wywa setbase&7."
+  reloaded: "&aConfiguration reloaded."
+  usage: "&7/wywa &8- &7setbase | mail <player> <msg> | base | reload"

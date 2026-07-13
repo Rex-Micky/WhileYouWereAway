@@ -1,0 +1,21 @@
+name: WhileYouWereAway
+version: '${project.version}'
+main: dev.rexmicky.wywa.WhileYouWereAwayPlugin
+api-version: '1.21'
+authors: [Rex]
+website: https://studio.rexmicky.dev
+description: On login, get a personalized recap of everything that happened while you were offline.
+
+commands:
+  wywa:
+    description: While You Were Away — set your base, send mail, and more.
+    usage: /wywa <setbase|mail|base|reload>
+    aliases: [away]
+
+permissions:
+  wywa.use:
+    description: Set a base and send offline mail.
+    default: true
+  wywa.admin:
+    description: Reload the configuration.
+    default: op
