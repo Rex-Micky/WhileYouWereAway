@@ -64,6 +64,10 @@ public class DataStore {
                             String.valueOf(m.get("message")),
                             m.get("time") instanceof Number n ? n.longValue() : 0L));
                 }
+                d.setLastClaimDate(s.getString("daily.lastClaimDate", ""));
+                d.setCurrentStreak(s.getInt("daily.currentStreak", 0));
+                d.setLongestStreak(s.getInt("daily.longestStreak", 0));
+                d.setTotalClaims(s.getInt("daily.totalClaims", 0));
                 players.put(d.getUuid(), d);
             } catch (Exception ex) {
                 plugin.getLogger().log(Level.WARNING, "Skipping malformed player data '" + key + "'", ex);
@@ -104,6 +108,12 @@ public class DataStore {
                     mails.add(mm);
                 }
                 yml.set(p + ".pending.mail", mails);
+            }
+            if (!d.getLastClaimDate().isEmpty()) {
+                yml.set(p + ".daily.lastClaimDate", d.getLastClaimDate());
+                yml.set(p + ".daily.currentStreak", d.getCurrentStreak());
+                yml.set(p + ".daily.longestStreak", d.getLongestStreak());
+                yml.set(p + ".daily.totalClaims", d.getTotalClaims());
             }
         }
         try {

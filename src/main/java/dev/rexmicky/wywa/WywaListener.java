@@ -32,7 +32,9 @@ public class WywaListener implements Listener {
 
         // Deliver this player's own recap once they've finished loading in.
         Bukkit.getScheduler().runTaskLater(plugin, () -> {
-            if (p.isOnline()) plugin.getRecap().deliver(p);
+            if (!p.isOnline()) return;
+            plugin.getRecap().deliver(p);
+            plugin.getDaily().notifyIfAvailable(p);
         }, 40L);
     }
 

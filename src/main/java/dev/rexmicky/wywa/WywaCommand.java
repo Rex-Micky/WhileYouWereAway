@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 
 public class WywaCommand implements CommandExecutor, TabCompleter {
 
-    private static final List<String> SUBS = Arrays.asList("setbase", "mail", "base", "reload");
+    private static final List<String> SUBS = Arrays.asList("daily", "streak", "setbase", "mail", "base", "reload");
 
     private final WhileYouWereAwayPlugin plugin;
 
@@ -39,6 +39,12 @@ public class WywaCommand implements CommandExecutor, TabCompleter {
                 if (!(sender instanceof Player p)) { sender.sendMessage("Players only."); return true; }
                 PlayerData d = plugin.getStore().get(p.getUniqueId());
                 if (d.hasBase()) sendBase(p, d); else plugin.send(p, "no-base");
+            }
+            case "daily", "claim" -> {
+                if (sender instanceof Player p) plugin.getDaily().claim(p); else sender.sendMessage("Players only.");
+            }
+            case "streak" -> {
+                if (sender instanceof Player p) plugin.getDaily().streakInfo(p); else sender.sendMessage("Players only.");
             }
             case "mail" -> doMail(sender, args);
             case "reload" -> {

@@ -19,6 +19,30 @@ recap:
   show-mail: true
   max-names: 10               # cap how many player names are listed
 
+# --- Daily rewards & login streaks ---------------------------------------
+# Reward players for logging in each day. Keep a streak going for bigger
+# rewards; miss a day and it resets. Rewards are items, XP, or console
+# commands — so you can hand out money, ranks or crate keys via any plugin.
+daily-rewards:
+  enabled: true
+  reset-on-miss: true         # miss a day → streak resets to 1
+  reward:
+    xp: 20
+    items:
+      - "DIAMOND:1"
+    commands: []              # e.g. "eco give {player} 100"
+  # Bonus rewards on specific streak days, added on top of the daily reward.
+  milestones:
+    3:
+      message: "&a3-day streak! Here's a little bonus."
+      items: ["GOLDEN_APPLE:1"]
+    7:
+      message: "&6A full week! Big bonus unlocked."
+      items: ["DIAMOND_BLOCK:1"]
+    30:
+      message: "&d30 days straight — you're a legend."
+      items: ["NETHERITE_INGOT:1"]
+
 # All messages support & colour codes and {placeholders}.
 messages:
   prefix: "&8[&bAway&8]&r "
@@ -39,4 +63,9 @@ messages:
   base-info: "&7Your base: &f{world} {x}, {y}, {z}"
   no-base: "&7You haven't set a base yet. Stand where your base is and use &f/wywa setbase&7."
   reloaded: "&aConfiguration reloaded."
-  usage: "&7/wywa &8- &7setbase | mail <player> <msg> | base | reload"
+  usage: "&7/wywa &8- &7setbase | mail <player> <msg> | daily | streak | base | reload"
+  daily-available: "&e☀ Your daily reward is ready! Streak: &f{streak} &e— claim it with &f/wywa daily"
+  daily-claimed: "&aDaily reward claimed! Login streak: &f{streak} &7(best: {longest})"
+  daily-already: "&7You've already claimed today's reward. Come back tomorrow!"
+  daily-disabled: "&7Daily rewards are disabled on this server."
+  streak-info: "&bLogin streak: &f{streak} &7| Best: &f{longest} &7| Total days claimed: &f{total}"

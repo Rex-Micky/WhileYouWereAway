@@ -10,6 +10,8 @@ public class WhileYouWereAwayPlugin extends JavaPlugin {
 
     private DataStore store;
     private RecapService recap;
+    private RewardService rewardService;
+    private DailyService daily;
 
     @Override
     public void onEnable() {
@@ -17,6 +19,8 @@ public class WhileYouWereAwayPlugin extends JavaPlugin {
         store = new DataStore(this);
         store.load();
         recap = new RecapService(this);
+        rewardService = new RewardService(this);
+        daily = new DailyService(this, rewardService);
 
         getServer().getPluginManager().registerEvents(new WywaListener(this), this);
         WywaCommand cmd = new WywaCommand(this);
@@ -52,6 +56,9 @@ public class WhileYouWereAwayPlugin extends JavaPlugin {
 
     public DataStore getStore() { return store; }
     public RecapService getRecap() { return recap; }
+    public DailyService getDaily() { return daily; }
+
+    public String color(String s) { return ChatColor.translateAlternateColorCodes('&', s); }
 
     private void proximityTick() {
         double radius = getConfig().getDouble("base.radius", 24);

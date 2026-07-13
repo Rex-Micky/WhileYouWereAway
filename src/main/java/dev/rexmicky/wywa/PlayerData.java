@@ -44,6 +44,12 @@ public class PlayerData {
     // Not persisted: throttles repeated base-visit counts per visitor.
     private final Map<String, Long> visitCooldowns = new HashMap<>();
 
+    // Daily rewards / login streak.
+    private String lastClaimDate = "";   // ISO yyyy-MM-dd; empty = never claimed
+    private int currentStreak;
+    private int longestStreak;
+    private int totalClaims;
+
     public PlayerData(UUID uuid) { this.uuid = uuid; }
 
     public UUID getUuid() { return uuid; }
@@ -82,6 +88,15 @@ public class PlayerData {
     public Map<String, Integer> getBaseVisits() { return baseVisits; }
     public List<Mail> getMail() { return mail; }
     public Map<String, Long> getVisitCooldowns() { return visitCooldowns; }
+
+    public String getLastClaimDate() { return lastClaimDate; }
+    public void setLastClaimDate(String d) { this.lastClaimDate = d == null ? "" : d; }
+    public int getCurrentStreak() { return currentStreak; }
+    public void setCurrentStreak(int s) { this.currentStreak = s; }
+    public int getLongestStreak() { return longestStreak; }
+    public void setLongestStreak(int s) { this.longestStreak = s; }
+    public int getTotalClaims() { return totalClaims; }
+    public void setTotalClaims(int t) { this.totalClaims = t; }
 
     public boolean hasAnythingToReport() {
         return !joinedWhileAway.isEmpty() || !baseVisits.isEmpty() || !mail.isEmpty();
