@@ -37,6 +37,9 @@ public class RecapService {
         plugin.send(player, "header", "duration", formatDuration(away));
         boolean any = false;
 
+        // Welcome-back reward scaling with how long they were gone.
+        if (plugin.getComeback().grantIfEligible(player, away)) any = true;
+
         if (plugin.getConfig().getBoolean("recap.show-days-passed", true)) {
             long days = daysPassed(d);
             if (days > 0) {
@@ -68,15 +71,21 @@ public class RecapService {
             any = true;
         }
 
-        if (plugin.getConfig().getBoolean("recap.show-mail", true) && !d.getMail().isEmpty()) {
-            plugin.sendRaw(player, "mail-header");
-            for (PlayerData.Mail m : d.getMail()) {
-                plugin.sendRaw(player, "mail-line", "from", m.from, "message", m.message);
+        List<PlayerData.Mail> dueMail = new ArrayList<>();
+        if (plugin.getConfig().getBoolean("recap.show-mail", true)) {
+            for (PlayerData.Mail m : d.getMail()) if (m.isDue()) dueMail.add(m);
+            if (!dueMail.isEmpty()) {
+                plugin.sendRaw(player, "mail-header");
+                for (PlayerData.Mail m : dueMail) {
+                    plugin.sendRaw(player, "mail-line", "from", m.from, "message", m.message);
+                }
+                any = true;
             }
-            any = true;
         }
 
         if (!any) plugin.sendRaw(player, "quiet");
+        plugin.getChronicle().generate(player, d, away);
+        d.getMail().removeAll(dueMail);   // delivered letters go; future-dated ones stay
         d.clearPending();
     }
 

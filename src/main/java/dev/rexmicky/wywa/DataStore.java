@@ -2,6 +2,7 @@ package dev.rexmicky.wywa;
 
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.inventory.ItemStack;
 
 import java.io.File;
 import java.io.IOException;
@@ -62,8 +63,22 @@ public class DataStore {
                     d.getMail().add(new PlayerData.Mail(
                             String.valueOf(m.get("from")),
                             String.valueOf(m.get("message")),
-                            m.get("time") instanceof Number n ? n.longValue() : 0L));
+                            m.get("time") instanceof Number n ? n.longValue() : 0L,
+                            m.get("deliverAt") instanceof Number dn ? dn.longValue() : 0L));
                 }
+                for (Map<?, ?> g : s.getMapList("guestbook")) {
+                    d.getGuestbook().add(new PlayerData.Mail(
+                            String.valueOf(g.get("from")),
+                            String.valueOf(g.get("message")),
+                            g.get("time") instanceof Number gn ? gn.longValue() : 0L));
+                }
+                String shrine = s.getString("shrineEntity");
+                if (shrine != null) try { d.setShrineEntity(UUID.fromString(shrine)); } catch (Exception ignored) {}
+                String watcher = s.getString("watcherEntity");
+                if (watcher != null) try { d.setWatcherEntity(UUID.fromString(watcher)); } catch (Exception ignored) {}
+                d.setWatcherLevel(s.getInt("watcherLevel", 0));
+                List<?> giftList = s.getList("gifts");
+                if (giftList != null) for (Object o : giftList) if (o instanceof ItemStack is) d.getGifts().add(is);
                 d.setLastClaimDate(s.getString("daily.lastClaimDate", ""));
                 d.setCurrentStreak(s.getInt("daily.currentStreak", 0));
                 d.setLongestStreak(s.getInt("daily.longestStreak", 0));
@@ -105,6 +120,7 @@ public class DataStore {
                     mm.put("from", m.from);
                     mm.put("message", m.message);
                     mm.put("time", m.time);
+                    mm.put("deliverAt", m.deliverAt);
                     mails.add(mm);
                 }
                 yml.set(p + ".pending.mail", mails);
@@ -115,6 +131,21 @@ public class DataStore {
                 yml.set(p + ".daily.longestStreak", d.getLongestStreak());
                 yml.set(p + ".daily.totalClaims", d.getTotalClaims());
             }
+            if (!d.getGuestbook().isEmpty()) {
+                List<Map<String, Object>> book = new ArrayList<>();
+                for (PlayerData.Mail g : d.getGuestbook()) {
+                    Map<String, Object> gm = new LinkedHashMap<>();
+                    gm.put("from", g.from);
+                    gm.put("message", g.message);
+                    gm.put("time", g.time);
+                    book.add(gm);
+                }
+                yml.set(p + ".guestbook", book);
+            }
+            if (!d.getGifts().isEmpty()) yml.set(p + ".gifts", d.getGifts());
+            if (d.getShrineEntity() != null) yml.set(p + ".shrineEntity", d.getShrineEntity().toString());
+            if (d.getWatcherEntity() != null) yml.set(p + ".watcherEntity", d.getWatcherEntity().toString());
+            if (d.getWatcherLevel() > 0) yml.set(p + ".watcherLevel", d.getWatcherLevel());
         }
         try {
             yml.save(file);

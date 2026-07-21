@@ -35,12 +35,17 @@ public class WywaListener implements Listener {
             if (!p.isOnline()) return;
             plugin.getRecap().deliver(p);
             plugin.getDaily().notifyIfAvailable(p);
+            plugin.getGuestbook().deliverGifts(p);
+            PlayerData self = plugin.getStore().get(p.getUniqueId());
+            plugin.getLoyalty().updateShrine(self);
+            plugin.getWatcher().refresh(self);
         }, 40L);
     }
 
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {
         Player p = event.getPlayer();
+        plugin.getTour().abort(p);   // never leave a disconnecting player stuck in spectator
         PlayerData d = plugin.getStore().get(p.getUniqueId());
         d.setName(p.getName());
         d.setLastLogout(System.currentTimeMillis());

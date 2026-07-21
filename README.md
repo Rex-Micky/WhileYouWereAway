@@ -1,29 +1,31 @@
 # WhileYouWereAway
 
-![Minecraft](https://img.shields.io/badge/Minecraft-1.21.x-brightgreen)
+![Minecraft](https://img.shields.io/badge/Minecraft-1.20.6--1.21.x-brightgreen)
 ![Platform](https://img.shields.io/badge/platform-Spigot%20%7C%20Paper-orange)
 ![Java](https://img.shields.io/badge/Java-21%2B-blue)
 ![Version](https://img.shields.io/badge/version-1.0.0-informational)
 ![License](https://img.shields.io/badge/license-MIT-lightgrey)
 
-> Log in and get a personalized recap of everything that happened while you were offline.
+> Your server keeps living while you're offline — and coming back should feel like something.
 
-**WhileYouWereAway** turns logging in into a moment. The second a player joins, they get a short,
-personal digest of what they missed: how long they were gone, how much in-game time passed, who was on
-(with brand-new players flagged), **who wandered near their base**, and any **offline mail** other
-players left them. It's a small touch that makes a server feel alive and keeps players coming back to
-see what they missed — a genuine retention tool, with no dependencies.
+Most plugins treat logging in as a non-event. **WhileYouWereAway** makes your *absence* a first-class
+part of the game: the world notices you were gone, remembers what happened, guards your home, and
+rewards you for coming back.
+
+Log in and you get a **personal newspaper** of everything you missed, a **guardian** that tells you who
+came prowling around your base, **gifts and guestbook notes** left by other players, **letters that
+travelled through time** to reach you, and a **loyalty shrine** that grows the longer you keep returning.
 
 ---
 
 ## Table of contents
 
 - [Features](#features)
-- [How the recap works](#how-the-recap-works)
 - [Installation](#installation)
 - [Commands](#commands)
 - [Permissions](#permissions)
 - [Configuration](#configuration)
+- [Compatibility](#compatibility)
 - [Building from source](#building-from-source)
 - [Roadmap](#roadmap)
 - [Support](#support)
@@ -33,22 +35,41 @@ see what they missed — a genuine retention tool, with no dependencies.
 
 ## Features
 
-- ⏱️ **Time away** — how long you were offline, and how many in-game days passed.
-- 👥 **Who was on** — the players who logged in while you were gone, with **new players flagged**.
-- 📍 **Base watch** — find out who came near your base while you were offline (the personal "trail cam").
-- ✉️ **Offline mail** — leave a message for a player; they get it in their recap next time they log in.
-- 🏠 **Simple base setup** — one command to mark the spot you want watched.
-- ⚙️ **Configurable** — toggle each recap section, tune the base radius, and edit every message.
-- 💾 **Persistent** across restarts, lightweight, and dependency-free.
-- 🧩 Works on **Spigot and Paper 1.21.x**.
+### 📰 The Gazette
+Your recap isn't a wall of chat lines — it's a **written newspaper** that opens on login, with headlines
+for everything you missed. Reread any edition with `/wywa chronicle`.
 
-## How the recap works
+### 🛡️ The Watcher
+Summon a **guardian** that lives at your base. While you're offline it **hunts down intruders**, and it
+grows stronger with your loyalty tier. Fully configurable mob type, health, damage and guard range.
 
-- When you **log out**, the plugin remembers the time and (once) your base — your bed spawn, or where
-  you logged off if you have no bed. You can override it any time with `/wywa setbase`.
-- While you're **offline**, it quietly records who logs in and who comes within range of your base.
-- When you **log back in** (after a configurable minimum time away), it delivers your digest and clears
-  it, ready to start fresh.
+### 🌳 Loyalty
+Your login streak becomes a visible **shrine floating above your base**, showing your tier —
+Newcomer → Regular → Devoted → Loyal → Legend. Progression you can actually see and show off.
+
+### 📖 Guestbook & gifts
+Visitors to your base can **sign your guestbook** and **leave you gifts**, which are waiting when you
+return. Your absence becomes asynchronous multiplayer.
+
+### ⏳ Letters through time
+Send a letter that arrives **days from now**, or leave a **note for your future self**. It waits until
+it's due, then finds you on login.
+
+### 🎁 Daily rewards, streaks & comeback bonus
+Escalating daily rewards with streak milestones, plus a **welcome-back bonus that scales with how long
+you were gone** — the nudge that pulls lapsed players back. Rewards are items, XP or console commands,
+so you can hand out money, ranks or crate keys through any plugin you already run.
+
+### 🎬 Return Tour
+A cinematic camera sweep around your home when you come back. Your gamemode and exact position are
+always restored — even if you disconnect mid-tour.
+
+### 🗂️ Home GUI
+One clickable menu (`/wywa`) tying it all together — Gazette, daily reward, loyalty, guestbook,
+Watcher, base and tour.
+
+Plus: who logged on while you were away (new players flagged), who came near your base, how many
+in-game days passed, and every message fully configurable.
 
 ## Installation
 
@@ -56,42 +77,70 @@ see what they missed — a genuine retention tool, with no dependencies.
 2. Drop it into your server's `plugins/` folder.
 3. Restart the server. A `config.yml` is generated on first run.
 
+No dependencies required.
+
 ## Commands
 
-Base command: `/wywa` — alias `/away`.
+Base command: `/wywa` — alias `/away`. Running it with no arguments opens the Home GUI.
 
 | Command | Description |
 |---|---|
-| `/wywa setbase` | Set the location watched for visitors to where you're standing |
-| `/wywa base` | Show your current base location |
-| `/wywa mail <player> <message>` | Send a message — delivered now if they're online, or in their next recap |
+| `/wywa` | Open the Home hub |
+| `/wywa chronicle` | Reopen your latest Gazette |
+| `/wywa daily` · `/wywa streak` | Claim your daily reward · view your streak |
+| `/wywa setbase` · `/wywa base` | Set the base that's watched · show it |
+| `/wywa watcher` | Summon your Watcher to your base |
+| `/wywa guestbook` | Read who signed your guestbook |
+| `/wywa sign <message>` | Sign the guestbook of the base you're standing at |
+| `/wywa gift <player>` | Leave the held item as a gift |
+| `/wywa mail <player> <message>` | Send mail (instant if online, else on their return) |
+| `/wywa letter <player> <delay> <message>` | A letter that arrives later, e.g. `3d` |
+| `/wywa futureself <delay> <message>` | Leave a note for your future self |
+| `/wywa tour` | Take the cinematic tour of your base |
 | `/wywa reload` | (admin) Reload the configuration |
 
 ## Permissions
 
 | Permission | Description | Default |
 |---|---|---|
-| `wywa.use` | Set a base and send mail | everyone |
+| `wywa.use` | All player features | everyone |
 | `wywa.admin` | Reload the configuration | op |
 
 ## Configuration
 
+Everything is editable in `config.yml` and applied with `/wywa reload`.
+
 ```yaml
-min-away-seconds: 120         # skip the recap for quick relogs shorter than this
+min-away-seconds: 120         # skip the recap for quick relogs
 base:
-  radius: 24                  # how close a player must be to count as "near your base"
-  visit-cooldown-seconds: 120 # don't recount the same visitor more often than this
-recap:
-  show-days-passed: true
-  show-online-players: true
-  show-base-visits: true
-  show-mail: true
-  max-names: 10               # cap how many player names are listed
-messages:
-  # every player-facing string is here and supports & colour codes + {placeholders}
+  radius: 24                  # how close counts as "near your base"
+watcher:
+  mob-type: IRON_GOLEM        # tameable mobs (WOLF/CAT) will NOT chase intruders — see below
+  invulnerable: true
+  guard-range: 16
+loyalty:
+  shrine: true
+  tiers: [ { at: 0, name: "&7Newcomer" }, { at: 7, name: "&bDevoted" }, ... ]
+daily-rewards:
+  reward: { xp: 20, items: ["DIAMOND:1"], commands: [] }
+  milestones: { 3: {...}, 7: {...}, 30: {...} }
+comeback:
+  tiers: { 2: {...}, 7: {...}, 30: {...} }      # keyed by days away
+chronicle:
+  auto-open: true
 ```
 
-Edit anything and run `/wywa reload`.
+> **On `watcher.mob-type`:** it defaults to `IRON_GOLEM` for a reason. Tameable mobs (`WOLF`, `CAT`)
+> use owner-defence AI and will **ignore a manually set target**, so they sit still while an intruder
+> walks past. Use them only if you want a purely decorative companion.
+
+## Compatibility
+
+Requires **Java 21+** (the runtime Minecraft itself requires from 1.20.5 onward).
+
+Automatically verified by booting a real server per version and exercising the plugin in-game on:
+**1.20.6**, **1.21.1**, **1.21.4** and **1.21.11** — all loading cleanly with no errors. Versions
+between those are expected to work but have not been individually tested.
 
 ## Building from source
 
@@ -102,14 +151,12 @@ mvn clean package
 # → target/WhileYouWereAway-1.0.0.jar
 ```
 
-Only standard Bukkit APIs are used, so the built jar runs on both Spigot and Paper.
-
 ## Roadmap
 
-- 🌾 Report crop growth, breeding and furnace output finished while you were away.
-- 💰 Market / shop price shifts (with an economy plugin installed).
-- 🔔 A summary of deaths and notable events near your base.
-- 📜 A scrollable GUI history instead of chat lines.
+- 📱 Discord webhook alerts when someone breaks into your base while you're offline.
+- ⏳ Idle rewards that accrue while you're away.
+- 📚 A personal journal of your milestones and firsts.
+- ⏰ Reminders delivered on your next login.
 
 ## Support
 

@@ -1,7 +1,7 @@
 name: WhileYouWereAway
 version: '${project.version}'
 main: dev.rexmicky.wywa.WhileYouWereAwayPlugin
-api-version: '1.21'
+api-version: '1.20'
 authors: [Rex]
 website: https://studio.rexmicky.dev
 description: On login, get a personalized recap of everything that happened while you were offline.

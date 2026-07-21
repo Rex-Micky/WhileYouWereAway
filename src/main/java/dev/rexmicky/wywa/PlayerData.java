@@ -1,6 +1,7 @@
 package dev.rexmicky.wywa;
 
 import org.bukkit.Location;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,16 +15,20 @@ import java.util.UUID;
 /** Everything we remember about one player, including what to tell them next time they log in. */
 public class PlayerData {
 
-    /** A piece of offline mail waiting to be delivered. */
+    /** A piece of mail (or a guestbook note). deliverAt lets letters arrive in the future. */
     public static final class Mail {
         public final String from;
         public final String message;
         public final long time;
-        public Mail(String from, String message, long time) {
+        public final long deliverAt;   // 0 = deliver on next login; else not until this epoch millis
+        public Mail(String from, String message, long time) { this(from, message, time, 0L); }
+        public Mail(String from, String message, long time, long deliverAt) {
             this.from = from;
             this.message = message;
             this.time = time;
+            this.deliverAt = deliverAt;
         }
+        public boolean isDue() { return deliverAt <= System.currentTimeMillis(); }
     }
 
     private final UUID uuid;
@@ -44,11 +49,22 @@ public class PlayerData {
     // Not persisted: throttles repeated base-visit counts per visitor.
     private final Map<String, Long> visitCooldowns = new HashMap<>();
 
-    // Daily rewards / login streak.
+    // Daily rewards / login streak (also drives loyalty tier).
     private String lastClaimDate = "";   // ISO yyyy-MM-dd; empty = never claimed
     private int currentStreak;
     private int longestStreak;
     private int totalClaims;
+
+    // Guestbook signed by visitors to this player's base.
+    private final List<Mail> guestbook = new ArrayList<>();
+
+    // Gifts left for this player, delivered on their next login.
+    private final List<ItemStack> gifts = new ArrayList<>();
+
+    // World handles for this player's loyalty shrine and Watcher companion (nullable).
+    private UUID shrineEntity;
+    private UUID watcherEntity;
+    private int watcherLevel;
 
     public PlayerData(UUID uuid) { this.uuid = uuid; }
 
@@ -98,6 +114,16 @@ public class PlayerData {
     public int getTotalClaims() { return totalClaims; }
     public void setTotalClaims(int t) { this.totalClaims = t; }
 
+    public List<Mail> getGuestbook() { return guestbook; }
+    public List<ItemStack> getGifts() { return gifts; }
+
+    public UUID getShrineEntity() { return shrineEntity; }
+    public void setShrineEntity(UUID id) { this.shrineEntity = id; }
+    public UUID getWatcherEntity() { return watcherEntity; }
+    public void setWatcherEntity(UUID id) { this.watcherEntity = id; }
+    public int getWatcherLevel() { return watcherLevel; }
+    public void setWatcherLevel(int l) { this.watcherLevel = l; }
+
     public boolean hasAnythingToReport() {
         return !joinedWhileAway.isEmpty() || !baseVisits.isEmpty() || !mail.isEmpty();
     }
@@ -106,6 +132,6 @@ public class PlayerData {
         joinedWhileAway.clear();
         newPlayersWhileAway.clear();
         baseVisits.clear();
-        mail.clear();
+        // mail is intentionally NOT cleared here — future-dated letters survive until due.
     }
 }

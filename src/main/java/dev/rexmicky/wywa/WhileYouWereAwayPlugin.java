@@ -12,6 +12,13 @@ public class WhileYouWereAwayPlugin extends JavaPlugin {
     private RecapService recap;
     private RewardService rewardService;
     private DailyService daily;
+    private ComebackService comeback;
+    private ChronicleService chronicle;
+    private LoyaltyService loyalty;
+    private WatcherService watcher;
+    private GuestbookService guestbook;
+    private TourService tour;
+    private HomeGui homeGui;
 
     @Override
     public void onEnable() {
@@ -21,14 +28,26 @@ public class WhileYouWereAwayPlugin extends JavaPlugin {
         recap = new RecapService(this);
         rewardService = new RewardService(this);
         daily = new DailyService(this, rewardService);
+        comeback = new ComebackService(this, rewardService);
+        chronicle = new ChronicleService(this);
+        loyalty = new LoyaltyService(this);
+        watcher = new WatcherService(this, loyalty);
+        guestbook = new GuestbookService(this);
+        tour = new TourService(this);
+        homeGui = new HomeGui(this);
 
         getServer().getPluginManager().registerEvents(new WywaListener(this), this);
+        getServer().getPluginManager().registerEvents(homeGui, this);
         WywaCommand cmd = new WywaCommand(this);
         getCommand("wywa").setExecutor(cmd);
         getCommand("wywa").setTabCompleter(cmd);
 
         // Watch for players wandering near offline players' bases (every 10s).
         getServer().getScheduler().runTaskTimer(this, this::proximityTick, 200L, 200L);
+        // Record who is online while others are away, so the recap is accurate (every 30s).
+        getServer().getScheduler().runTaskTimer(this, this::presenceTick, 600L, 600L);
+        // The Watcher guards its owner's base against intruders (every 2s).
+        getServer().getScheduler().runTaskTimer(this, watcher::guardTick, 40L, 40L);
         // Periodic autosave so recorded events survive a crash (every 60s).
         getServer().getScheduler().runTaskTimer(this, () -> store.save(), 1200L, 1200L);
 
@@ -57,8 +76,26 @@ public class WhileYouWereAwayPlugin extends JavaPlugin {
     public DataStore getStore() { return store; }
     public RecapService getRecap() { return recap; }
     public DailyService getDaily() { return daily; }
+    public ComebackService getComeback() { return comeback; }
+    public ChronicleService getChronicle() { return chronicle; }
+    public LoyaltyService getLoyalty() { return loyalty; }
+    public WatcherService getWatcher() { return watcher; }
+    public GuestbookService getGuestbook() { return guestbook; }
+    public TourService getTour() { return tour; }
+    public HomeGui getHomeGui() { return homeGui; }
 
     public String color(String s) { return ChatColor.translateAlternateColorCodes('&', s); }
+
+    private void presenceTick() {
+        var online = getServer().getOnlinePlayers();
+        if (online.isEmpty()) return;
+        for (PlayerData d : store.all()) {
+            if (getServer().getPlayer(d.getUuid()) != null) continue;   // owner is online
+            for (Player v : online) {
+                if (!v.getUniqueId().equals(d.getUuid())) d.getJoinedWhileAway().add(v.getName());
+            }
+        }
+    }
 
     private void proximityTick() {
         double radius = getConfig().getDouble("base.radius", 24);

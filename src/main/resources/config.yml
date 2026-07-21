@@ -43,6 +43,60 @@ daily-rewards:
       message: "&d30 days straight — you're a legend."
       items: ["NETHERITE_INGOT:1"]
 
+# --- Comeback bonus ------------------------------------------------------
+# A welcome-back reward that scales with how long you were gone — the nudge
+# that pulls lapsed players back. You get the highest tier you qualify for.
+comeback:
+  enabled: true
+  tiers:                       # keyed by whole days away
+    2:
+      message: "&bWelcome back! Here's a little something for returning."
+      items: ["EXPERIENCE_BOTTLE:8"]
+    7:
+      message: "&bIt's been a while — welcome back!"
+      items: ["DIAMOND:3"]
+    30:
+      message: "&bA legend returns. Welcome home!"
+      items: ["DIAMOND_BLOCK:1"]
+
+# --- The Gazette: your recap delivered as a newspaper --------------------
+# Turns the login recap into a written book with headlines — far more
+# memorable than chat lines. /wywa chronicle reopens the latest edition.
+chronicle:
+  enabled: true
+  auto-open: true               # open the Gazette automatically on login
+  server-name: "The Gazette"    # masthead title
+
+# --- Loyalty: your login streak, made visible --------------------------
+# A floating shrine above your base shows your loyalty tier and grows as
+# your streak climbs. Tiers are reached at the streak thresholds below.
+loyalty:
+  enabled: true
+  shrine: true
+  tiers:
+    - { at: 0,  name: "&7Newcomer" }
+    - { at: 3,  name: "&aRegular" }
+    - { at: 7,  name: "&bDevoted" }
+    - { at: 14, name: "&dLoyal" }
+    - { at: 30, name: "&6Legend" }
+
+# --- The Watcher: your base guardian -----------------------------------
+# A companion that lives at your base, guards it against intruders while
+# you're offline, and grows stronger with your loyalty tier.
+watcher:
+  enabled: true
+  # Which mob guards your base. IRON_GOLEM is the default because tameable
+  # companions (WOLF, CAT) use owner-defence AI and will NOT chase intruders.
+  # Good alternatives: SNOW_GOLEM, VINDICATOR, RAVAGER. WOLF works as a purely
+  # decorative companion if you don't need it to actually fight.
+  mob-type: IRON_GOLEM
+  invulnerable: true            # the Watcher can't be killed while you're away
+  guard-range: 16               # how far it will chase intruders from your base
+
+# --- Return Tour: a cinematic welcome home -----------------------------
+return-tour:
+  enabled: true
+
 # All messages support & colour codes and {placeholders}.
 messages:
   prefix: "&8[&bAway&8]&r "
@@ -63,9 +117,37 @@ messages:
   base-info: "&7Your base: &f{world} {x}, {y}, {z}"
   no-base: "&7You haven't set a base yet. Stand where your base is and use &f/wywa setbase&7."
   reloaded: "&aConfiguration reloaded."
-  usage: "&7/wywa &8- &7setbase | mail <player> <msg> | daily | streak | base | reload"
+  usage: "&7/wywa &8- &7home | daily | streak | chronicle | guestbook | sign | gift | watcher | tour | setbase | mail | letter | futureself"
   daily-available: "&e☀ Your daily reward is ready! Streak: &f{streak} &e— claim it with &f/wywa daily"
   daily-claimed: "&aDaily reward claimed! Login streak: &f{streak} &7(best: {longest})"
   daily-already: "&7You've already claimed today's reward. Come back tomorrow!"
   daily-disabled: "&7Daily rewards are disabled on this server."
   streak-info: "&bLogin streak: &f{streak} &7| Best: &f{longest} &7| Total days claimed: &f{total}"
+  chronicle-ready: "&e📰 A new edition of The Gazette is ready — &f/wywa chronicle &eto read it."
+  chronicle-none: "&7There's no Gazette edition waiting for you right now."
+  # Guestbook & gifts
+  sign-usage: "&cUsage: /wywa sign <message> &7(while standing at someone's base)"
+  guestbook-not-near: "&cYou're not near anyone's base to sign."
+  guestbook-signed: "&aYou signed &f{player}&a's guestbook."
+  guestbook-empty: "&7Your guestbook is empty. Visitors can sign it with &f/wywa sign&7."
+  guestbook-header: "&d&lYour guestbook &7({count} entries):"
+  guestbook-entry: "&7 &8• &f{from} &7— &f{message} &8({ago})"
+  gift-usage: "&cUsage: /wywa gift <player> &7(holding the item to give)"
+  gift-none: "&cHold the item you want to gift in your main hand."
+  gift-self: "&cYou can't gift to yourself."
+  gift-sent: "&aGift sent to &f{player}&a."
+  gift-received: "&d🎁 &f{from} &dleft you a gift!"
+  gifts-delivered: "&d🎁 You received &f{count} &dgift(s) left while you were away!"
+  # The Watcher
+  watcher-summoned: "&6Your Watcher &7(Lv.{level})&6 now guards your base."
+  watcher-far: "&cGo to your base to summon your Watcher there."
+  watcher-disabled: "&7The Watcher is disabled on this server."
+  # Return tour
+  tour-done: "&aWelcome home."
+  tour-disabled: "&7The return tour is disabled on this server."
+  # Letters through time
+  letter-usage: "&cUsage: /wywa letter <player> <delay> <message> &7(e.g. 3d)"
+  letter-scheduled: "&aLetter to &f{player}&a scheduled to arrive in &f{when}&a."
+  futureself-usage: "&cUsage: /wywa futureself <delay> <message> &7(e.g. 7d)"
+  futureself-scheduled: "&aA note to your future self will arrive in &f{when}&a."
+  bad-duration: "&cInvalid time. Try &f30m&c, &f2h&c, &f7d&c, &f1w&c."
