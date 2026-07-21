@@ -41,6 +41,32 @@ public class RewardService {
         }
     }
 
+    /**
+     * Give a reward multiplied by a factor — used by idle rewards (per-hour x hours).
+     * Items are handed out one batch at a time so stacks split naturally instead of
+     * building an oversized ItemStack. Commands run once, not once per multiple.
+     */
+    public void giveScaled(Player player, ConfigurationSection reward, int multiplier) {
+        if (reward == null || multiplier <= 0) return;
+
+        int xp = reward.getInt("xp", 0) * multiplier;
+        if (xp > 0) player.giveExp(xp);
+
+        for (int i = 0; i < multiplier; i++) {
+            for (String spec : reward.getStringList("items")) {
+                ItemStack item = parseItem(spec);
+                if (item == null) continue;
+                for (ItemStack leftover : player.getInventory().addItem(item).values()) {
+                    player.getWorld().dropItemNaturally(player.getLocation(), leftover);
+                }
+            }
+        }
+        for (String cmd : reward.getStringList("commands")) {
+            if (cmd == null || cmd.isBlank()) continue;
+            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmd.replace("{player}", player.getName()));
+        }
+    }
+
     private ItemStack parseItem(String spec) {
         String[] parts = spec.split(":");
         Material mat = Material.matchMaterial(parts[0].trim());

@@ -97,6 +97,39 @@ watcher:
 return-tour:
   enabled: true
 
+# --- Discord alerts ----------------------------------------------------
+# A real-world ping when someone turns up at your base while you're offline.
+# Players may set their own webhook with /wywa discord <url>, otherwise the
+# server-wide one below is used. Only genuine discord.com webhook URLs are
+# accepted, so a player can't point the server at an internal address.
+#
+# NOTE: a URL typed as a command is written to the server console log, like any
+# other command. If that matters for your setup, prefer the server-wide webhook
+# and leave players' personal ones unused.
+discord:
+  enabled: false                # off until you've set a webhook
+  webhook-url: ""               # server-wide fallback
+
+# --- Idle rewards ------------------------------------------------------
+# A small trickle that accrues while you're offline, handed over on return.
+# Capped, so vanishing for a month doesn't pay out a fortune.
+idle-rewards:
+  enabled: true
+  max-hours: 8                  # never pay for more hours than this
+  per-hour:
+    xp: 5
+    items:
+      - "IRON_INGOT:1"
+    commands: []                # e.g. "eco give {player} 25"
+
+# --- Journal -----------------------------------------------------------
+# The player's own story, written automatically: firsts, milestones, deaths
+# and boss kills. Read it with /wywa journal
+journal:
+  enabled: true
+  max-entries: 100              # oldest entries are trimmed past this
+  show-entries: 12              # how many to show at once
+
 # All messages support & colour codes and {placeholders}.
 messages:
   prefix: "&8[&bAway&8]&r "
@@ -117,7 +150,7 @@ messages:
   base-info: "&7Your base: &f{world} {x}, {y}, {z}"
   no-base: "&7You haven't set a base yet. Stand where your base is and use &f/wywa setbase&7."
   reloaded: "&aConfiguration reloaded."
-  usage: "&7/wywa &8- &7home | daily | streak | chronicle | guestbook | sign | gift | watcher | tour | setbase | mail | letter | futureself"
+  usage: "&7/wywa &8- &7home | daily | streak | chronicle | journal | guestbook | sign | gift | watcher | tour | setbase | mail | letter | futureself | remind | discord"
   daily-available: "&e☀ Your daily reward is ready! Streak: &f{streak} &e— claim it with &f/wywa daily"
   daily-claimed: "&aDaily reward claimed! Login streak: &f{streak} &7(best: {longest})"
   daily-already: "&7You've already claimed today's reward. Come back tomorrow!"
@@ -151,3 +184,20 @@ messages:
   futureself-usage: "&cUsage: /wywa futureself <delay> <message> &7(e.g. 7d)"
   futureself-scheduled: "&aA note to your future self will arrive in &f{when}&a."
   bad-duration: "&cInvalid time. Try &f30m&c, &f2h&c, &f7d&c, &f1w&c."
+  # Reminders
+  remind-usage: "&cUsage: /wywa remind <delay> <message> &7(e.g. 2h feed the animals)"
+  remind-set: "&aReminder set — I'll nudge you in &f{when}&a."
+  # Idle rewards
+  idle-granted: "&e⏳ You earned &f{hours}h &eof idle rewards while you were away."
+  # Journal
+  journal-header: "&6&lYour journal &7({count} entries):"
+  journal-entry: "&7 &8• &6{category}&8: &f{text} &8({ago})"
+  journal-empty: "&7Your journal is empty — go and do something worth writing down."
+  journal-disabled: "&7The journal is disabled on this server."
+  # Discord alerts. This one is sent TO Discord, so it deliberately uses no colour codes.
+  discord-intrusion: "🚨 **{visitor}** was spotted at **{owner}**'s base in `{world}` while they were offline."
+  discord-usage: "&cUsage: /wywa discord <webhook-url>&7, or &f/wywa discord off"
+  discord-set: "&aBase alerts will now be sent to your Discord webhook."
+  discord-cleared: "&7Your personal Discord webhook has been removed."
+  discord-invalid: "&cThat isn't a valid Discord webhook URL. It should start with &fhttps://discord.com/api/webhooks/"
+  discord-disabled: "&7Discord alerts are disabled on this server."

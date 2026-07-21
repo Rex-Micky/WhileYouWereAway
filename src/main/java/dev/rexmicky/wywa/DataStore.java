@@ -79,6 +79,13 @@ public class DataStore {
                 d.setWatcherLevel(s.getInt("watcherLevel", 0));
                 List<?> giftList = s.getList("gifts");
                 if (giftList != null) for (Object o : giftList) if (o instanceof ItemStack is) d.getGifts().add(is);
+                for (Map<?, ?> j : s.getMapList("journal")) {
+                    d.getJournal().add(new PlayerData.Mail(
+                            String.valueOf(j.get("from")),
+                            String.valueOf(j.get("message")),
+                            j.get("time") instanceof Number jn ? jn.longValue() : 0L));
+                }
+                d.setDiscordWebhook(s.getString("discordWebhook"));
                 d.setLastClaimDate(s.getString("daily.lastClaimDate", ""));
                 d.setCurrentStreak(s.getInt("daily.currentStreak", 0));
                 d.setLongestStreak(s.getInt("daily.longestStreak", 0));
@@ -143,6 +150,18 @@ public class DataStore {
                 yml.set(p + ".guestbook", book);
             }
             if (!d.getGifts().isEmpty()) yml.set(p + ".gifts", d.getGifts());
+            if (!d.getJournal().isEmpty()) {
+                List<Map<String, Object>> entries = new ArrayList<>();
+                for (PlayerData.Mail j : d.getJournal()) {
+                    Map<String, Object> jm = new LinkedHashMap<>();
+                    jm.put("from", j.from);
+                    jm.put("message", j.message);
+                    jm.put("time", j.time);
+                    entries.add(jm);
+                }
+                yml.set(p + ".journal", entries);
+            }
+            if (d.getDiscordWebhook() != null) yml.set(p + ".discordWebhook", d.getDiscordWebhook());
             if (d.getShrineEntity() != null) yml.set(p + ".shrineEntity", d.getShrineEntity().toString());
             if (d.getWatcherEntity() != null) yml.set(p + ".watcherEntity", d.getWatcherEntity().toString());
             if (d.getWatcherLevel() > 0) yml.set(p + ".watcherLevel", d.getWatcherLevel());

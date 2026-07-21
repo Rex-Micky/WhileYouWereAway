@@ -61,6 +61,12 @@ public class PlayerData {
     // Gifts left for this player, delivered on their next login.
     private final List<ItemStack> gifts = new ArrayList<>();
 
+    // Auto-written record of this player's milestones and firsts.
+    private final List<Mail> journal = new ArrayList<>();
+
+    // Optional personal Discord webhook for base-intrusion alerts.
+    private String discordWebhook;
+
     // World handles for this player's loyalty shrine and Watcher companion (nullable).
     private UUID shrineEntity;
     private UUID watcherEntity;
@@ -116,6 +122,16 @@ public class PlayerData {
 
     public List<Mail> getGuestbook() { return guestbook; }
     public List<ItemStack> getGifts() { return gifts; }
+    public List<Mail> getJournal() { return journal; }
+
+    public String getDiscordWebhook() { return discordWebhook; }
+    public void setDiscordWebhook(String url) { this.discordWebhook = url; }
+
+    /** Append a journal entry, trimming the oldest so it can't grow without bound. */
+    public void addJournalEntry(String category, String text, int max) {
+        journal.add(new Mail(category, text, System.currentTimeMillis()));
+        while (journal.size() > max) journal.remove(0);
+    }
 
     public UUID getShrineEntity() { return shrineEntity; }
     public void setShrineEntity(UUID id) { this.shrineEntity = id; }

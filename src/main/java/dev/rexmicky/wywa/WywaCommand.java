@@ -17,8 +17,9 @@ import java.util.stream.Collectors;
 public class WywaCommand implements CommandExecutor, TabCompleter {
 
     private static final List<String> SUBS = Arrays.asList(
-            "home", "daily", "streak", "chronicle", "guestbook", "sign", "gift",
-            "watcher", "tour", "setbase", "base", "mail", "letter", "futureself", "reload");
+            "home", "daily", "streak", "chronicle", "journal", "guestbook", "sign", "gift",
+            "watcher", "tour", "setbase", "base", "mail", "letter", "futureself", "remind",
+            "discord", "reload");
 
     private static final Pattern DURATION = Pattern.compile("(?i)(\\d+)([smhdw])");
 
@@ -54,6 +55,9 @@ public class WywaCommand implements CommandExecutor, TabCompleter {
             case "streak" -> onlyPlayer(sender, p -> plugin.getDaily().streakInfo(p));
             case "chronicle" -> onlyPlayer(sender, p -> plugin.getChronicle().reopen(p));
             case "guestbook" -> onlyPlayer(sender, p -> plugin.getGuestbook().view(p));
+            case "journal" -> onlyPlayer(sender, p -> plugin.getJournal().view(p));
+            case "remind" -> doRemind(sender, args);
+            case "discord" -> doDiscord(sender, args);
             case "watcher" -> onlyPlayer(sender, p -> plugin.getWatcher().summon(p));
             case "tour" -> onlyPlayer(sender, p -> plugin.getTour().start(p));
             case "sign" -> {
@@ -122,6 +126,37 @@ public class WywaCommand implements CommandExecutor, TabCompleter {
                 System.currentTimeMillis(), System.currentTimeMillis() + delay));
         plugin.getStore().save();
         plugin.send(p, "futureself-scheduled", "when", args[1]);
+    }
+
+    private void doRemind(CommandSender sender, String[] args) {
+        if (!(sender instanceof Player p)) { sender.sendMessage("Players only."); return; }
+        if (args.length < 3) { plugin.send(p, "remind-usage"); return; }
+        long delay = parseDuration(args[1]);
+        if (delay <= 0) { plugin.send(p, "bad-duration"); return; }
+        String message = String.join(" ", Arrays.copyOfRange(args, 2, args.length));
+        long now = System.currentTimeMillis();
+        plugin.getStore().get(p.getUniqueId()).getMail()
+                .add(new PlayerData.Mail("Reminder", message, now, now + delay));
+        plugin.getStore().save();
+        plugin.send(p, "remind-set", "when", args[1]);
+    }
+
+    private void doDiscord(CommandSender sender, String[] args) {
+        if (!(sender instanceof Player p)) { sender.sendMessage("Players only."); return; }
+        if (!plugin.getDiscord().enabled()) { plugin.send(p, "discord-disabled"); return; }
+        if (args.length < 2) { plugin.send(p, "discord-usage"); return; }
+
+        PlayerData d = plugin.getStore().get(p.getUniqueId());
+        if (args[1].equalsIgnoreCase("off") || args[1].equalsIgnoreCase("clear")) {
+            d.setDiscordWebhook(null);
+            plugin.getStore().save();
+            plugin.send(p, "discord-cleared");
+            return;
+        }
+        if (!plugin.getDiscord().isValidWebhook(args[1])) { plugin.send(p, "discord-invalid"); return; }
+        d.setDiscordWebhook(args[1].trim());
+        plugin.getStore().save();
+        plugin.send(p, "discord-set");
     }
 
     private void queueMail(String targetName, String from, String message, long deliverAt) {

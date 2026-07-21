@@ -19,6 +19,9 @@ public class WhileYouWereAwayPlugin extends JavaPlugin {
     private GuestbookService guestbook;
     private TourService tour;
     private HomeGui homeGui;
+    private DiscordService discord;
+    private JournalService journal;
+    private IdleRewardService idleRewards;
 
     @Override
     public void onEnable() {
@@ -35,6 +38,9 @@ public class WhileYouWereAwayPlugin extends JavaPlugin {
         guestbook = new GuestbookService(this);
         tour = new TourService(this);
         homeGui = new HomeGui(this);
+        discord = new DiscordService(this);
+        journal = new JournalService(this);
+        idleRewards = new IdleRewardService(this, rewardService);
 
         getServer().getPluginManager().registerEvents(new WywaListener(this), this);
         getServer().getPluginManager().registerEvents(homeGui, this);
@@ -48,6 +54,8 @@ public class WhileYouWereAwayPlugin extends JavaPlugin {
         getServer().getScheduler().runTaskTimer(this, this::presenceTick, 600L, 600L);
         // The Watcher guards its owner's base against intruders (every 2s).
         getServer().getScheduler().runTaskTimer(this, watcher::guardTick, 40L, 40L);
+        // Timed letters and reminders arrive when they come due, not only at login (every 30s).
+        getServer().getScheduler().runTaskTimer(this, this::deliverDueMail, 600L, 600L);
         // Periodic autosave so recorded events survive a crash (every 60s).
         getServer().getScheduler().runTaskTimer(this, () -> store.save(), 1200L, 1200L);
 
@@ -83,8 +91,33 @@ public class WhileYouWereAwayPlugin extends JavaPlugin {
     public GuestbookService getGuestbook() { return guestbook; }
     public TourService getTour() { return tour; }
     public HomeGui getHomeGui() { return homeGui; }
+    public DiscordService getDiscord() { return discord; }
+    public JournalService getJournal() { return journal; }
+    public IdleRewardService getIdleRewards() { return idleRewards; }
 
     public String color(String s) { return ChatColor.translateAlternateColorCodes('&', s); }
+
+    /**
+     * Deliver letters whose time has come while the player is already online.
+     * Only timed mail (deliverAt > 0) is handled here — plain queued mail is left
+     * for the login recap, which is where it belongs.
+     */
+    private void deliverDueMail() {
+        for (Player p : getServer().getOnlinePlayers()) {
+            PlayerData d = store.get(p.getUniqueId());
+            if (d.getMail().isEmpty()) continue;
+            java.util.List<PlayerData.Mail> due = new java.util.ArrayList<>();
+            for (PlayerData.Mail m : d.getMail()) {
+                if (m.deliverAt > 0 && m.isDue()) due.add(m);
+            }
+            if (due.isEmpty()) continue;
+            sendRaw(p, "mail-header");
+            for (PlayerData.Mail m : due) {
+                sendRaw(p, "mail-line", "from", m.from, "message", m.message);
+            }
+            d.getMail().removeAll(due);
+        }
+    }
 
     private void presenceTick() {
         var online = getServer().getOnlinePlayers();
@@ -116,6 +149,9 @@ public class WhileYouWereAwayPlugin extends JavaPlugin {
                 if (now - last >= cooldown) {
                     d.getBaseVisits().merge(v.getName(), 1, Integer::sum);
                     d.getVisitCooldowns().put(v.getName(), now);
+                    // real-world ping: someone is at your base and you're not there
+                    discord.alert(d, format("discord-intrusion",
+                            "visitor", v.getName(), "owner", d.getName(), "world", d.getBaseWorld()));
                 }
             }
         }

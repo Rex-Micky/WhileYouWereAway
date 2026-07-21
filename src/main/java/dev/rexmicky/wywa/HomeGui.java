@@ -42,6 +42,7 @@ public class HomeGui implements Listener {
         inv.setItem(14, icon(Material.BONE, "&6The Watcher", "&7Summon your guardian", "&7to your base"));
         inv.setItem(15, icon(Material.COMPASS, "&fYour Base", d.hasBase() ? "&7" + d.getBaseWorld() + " " + (int) d.getBx() + "," + (int) d.getBy() + "," + (int) d.getBz() : "&7Not set — /wywa setbase"));
         inv.setItem(16, icon(Material.ENDER_EYE, "&5Return Tour", "&7Take a cinematic tour", "&7of your home"));
+        inv.setItem(22, icon(Material.BOOK, "&6Your Journal", "&7Firsts, milestones and deaths", "&7Entries: &f" + d.getJournal().size()));
 
         player.openInventory(inv);
     }
@@ -66,6 +67,7 @@ public class HomeGui implements Listener {
                 else plugin.send(p, "no-base");
             }
             case 16 -> { p.closeInventory(); plugin.getTour().start(p); }
+            case 22 -> { p.closeInventory(); plugin.getJournal().view(p); }
             default -> { }
         }
     }

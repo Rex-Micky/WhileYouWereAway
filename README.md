@@ -3,7 +3,7 @@
 ![Minecraft](https://img.shields.io/badge/Minecraft-1.20.6--1.21.x-brightgreen)
 ![Platform](https://img.shields.io/badge/platform-Spigot%20%7C%20Paper-orange)
 ![Java](https://img.shields.io/badge/Java-21%2B-blue)
-![Version](https://img.shields.io/badge/version-1.0.0-informational)
+![Version](https://img.shields.io/badge/version-1.1.0-informational)
 ![License](https://img.shields.io/badge/license-MIT-lightgrey)
 
 > Your server keeps living while you're offline — and coming back should feel like something.
@@ -64,6 +64,24 @@ so you can hand out money, ranks or crate keys through any plugin you already ru
 A cinematic camera sweep around your home when you come back. Your gamemode and exact position are
 always restored — even if you disconnect mid-tour.
 
+### 📱 Discord alerts
+Get a **real-world ping** the moment someone turns up at your base while you're offline. Each player
+can point alerts at their own webhook with `/wywa discord <url>`, or the server can use one channel.
+Only genuine `discord.com` webhook URLs are accepted, so a player can't aim your server at an
+internal address.
+
+### ⏳ Idle rewards
+A small trickle accrues while you're away and is handed over the second you return — capped, so
+disappearing for a month doesn't pay out a fortune.
+
+### 📚 Your journal
+The server quietly writes your story: your first diamond, your first ancient debris, every boss you
+felled, every death. Read it back with `/wywa journal`.
+
+### ⏰ Reminders
+`/wywa remind 2h feed the animals` — delivered the moment it's due if you're online, or waiting for
+you at login if you're not.
+
 ### 🗂️ Home GUI
 One clickable menu (`/wywa`) tying it all together — Gazette, daily reward, loyalty, guestbook,
 Watcher, base and tour.
@@ -96,6 +114,9 @@ Base command: `/wywa` — alias `/away`. Running it with no arguments opens the 
 | `/wywa mail <player> <message>` | Send mail (instant if online, else on their return) |
 | `/wywa letter <player> <delay> <message>` | A letter that arrives later, e.g. `3d` |
 | `/wywa futureself <delay> <message>` | Leave a note for your future self |
+| `/wywa journal` | Read your own history of firsts and milestones |
+| `/wywa remind <delay> <message>` | Set a reminder, e.g. `2h feed the animals` |
+| `/wywa discord <url>` · `off` | Send base alerts to your own Discord webhook |
 | `/wywa tour` | Take the cinematic tour of your base |
 | `/wywa reload` | (admin) Reload the configuration |
 
@@ -128,7 +149,19 @@ comeback:
   tiers: { 2: {...}, 7: {...}, 30: {...} }      # keyed by days away
 chronicle:
   auto-open: true
+discord:
+  enabled: false              # set a webhook first
+  webhook-url: ""             # server-wide fallback
+idle-rewards:
+  max-hours: 8                # never pay for more hours than this
+  per-hour: { xp: 5, items: ["IRON_INGOT:1"] }
+journal:
+  max-entries: 100
 ```
+
+> **A note on Discord webhooks:** a URL typed as a command is written to the server console log,
+> like every other command. If that matters for your setup, prefer the server-wide webhook and
+> leave players' personal ones unused.
 
 > **On `watcher.mob-type`:** it defaults to `IRON_GOLEM` for a reason. Tameable mobs (`WOLF`, `CAT`)
 > use owner-defence AI and will **ignore a manually set target**, so they sit still while an intruder
@@ -153,10 +186,12 @@ mvn clean package
 
 ## Roadmap
 
-- 📱 Discord webhook alerts when someone breaks into your base while you're offline.
-- ⏳ Idle rewards that accrue while you're away.
-- 📚 A personal journal of your milestones and firsts.
-- ⏰ Reminders delivered on your next login.
+The original roadmap is complete — Discord alerts, idle rewards, the journal and reminders all
+shipped in 1.1.0. Ideas still on the table:
+
+- 🌾 Report crop growth, breeding and furnace output finished while you were away.
+- 💰 Market and shop price shifts (with an economy plugin installed).
+- 📜 A scrollable GUI history instead of chat lines.
 
 ## Support
 
