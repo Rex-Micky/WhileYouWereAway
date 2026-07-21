@@ -95,16 +95,19 @@ public class RecapService {
         return delta > 0 ? delta / 24000L : 0;
     }
 
-    /** e.g. 2d 3h 40m (always at least a minutes figure). */
+    /** e.g. 2d 3h 40m, or plain seconds for a short absence so it never reads "0m". */
     public static String formatDuration(long millis) {
-        long s = millis / 1000;
+        long total = Math.max(0, millis / 1000);
+        if (total < 60) return total + "s";
+
+        long s = total;
         long d = s / 86400; s %= 86400;
         long h = s / 3600;  s %= 3600;
         long m = s / 60;
         StringBuilder sb = new StringBuilder();
         if (d > 0) sb.append(d).append("d ");
         if (h > 0) sb.append(h).append("h ");
-        if (m > 0 || sb.length() == 0) sb.append(m).append("m");
+        if (m > 0) sb.append(m).append("m");
         return sb.toString().trim();
     }
 }
