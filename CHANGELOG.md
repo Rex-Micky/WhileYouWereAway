@@ -3,6 +3,12 @@
 All notable changes to WhileYouWereAway are documented here.
 This project adheres to [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+### Fixed
+- A sub-minute absence rendered as `While you were away (0m)`. Short absences now show
+  seconds instead.
+
 ## [1.1.0]
 
 Completes the original roadmap. Verified end-to-end with automated in-game tests.
@@ -50,9 +56,3 @@ First feature-complete release. Verified end-to-end with automated in-game tests
 - Attributes are now resolved reflectively, so the same jar works across the 1.21.3 Bukkit rename
   (`GENERIC_MAX_HEALTH` → `MAX_HEALTH`).
 - `api-version` lowered to `1.20`, allowing the plugin to load on 1.20.6+.
-
-## [Unreleased]
-
-### Fixed
-- A sub-minute absence rendered as `While you were away (0m)`. Short absences now show
-  seconds instead.
