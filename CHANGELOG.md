@@ -3,7 +3,7 @@
 All notable changes to WhileYouWereAway are documented here.
 This project adheres to [Semantic Versioning](https://semver.org/).
 
-## [Unreleased]
+## [1.1.1] — 2026-07-22
 
 ### Fixed
 - A sub-minute absence rendered as `While you were away (0m)`. Short absences now show
