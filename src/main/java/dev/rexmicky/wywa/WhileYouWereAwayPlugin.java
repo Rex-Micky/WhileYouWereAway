@@ -99,7 +99,7 @@ public class WhileYouWereAwayPlugin extends JavaPlugin {
 
     /**
      * Deliver letters whose time has come while the player is already online.
-     * Only timed mail (deliverAt > 0) is handled here — plain queued mail is left
+     * Only timed mail (deliverAt > 0) is handled here - plain queued mail is left
      * for the login recap, which is where it belongs.
      */
     private void deliverDueMail() {
@@ -157,7 +157,7 @@ public class WhileYouWereAwayPlugin extends JavaPlugin {
         }
     }
 
-    // --- messaging -----------------------------------------------------------
+    // Messaging
 
     public String format(String key, Object... placeholders) {
         String raw = getConfig().getString("messages." + key, "");

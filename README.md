@@ -6,7 +6,7 @@
 ![Version](https://img.shields.io/badge/version-1.1.0-informational)
 ![License](https://img.shields.io/badge/license-MIT-lightgrey)
 
-> Your server keeps living while you're offline — and coming back should feel like something.
+> Your server keeps living while you're offline - and coming back should feel like something.
 
 Most plugins treat logging in as a non-event. **WhileYouWereAway** makes your *absence* a first-class
 part of the game: the world notices you were gone, remembers what happened, guards your home, and
@@ -36,7 +36,7 @@ travelled through time** to reach you, and a **loyalty shrine** that grows the l
 ## Features
 
 ### 📰 The Gazette
-Your recap isn't a wall of chat lines — it's a **written newspaper** that opens on login, with headlines
+Your recap isn't a wall of chat lines - it's a **written newspaper** that opens on login, with headlines
 for everything you missed. Reread any edition with `/wywa chronicle`.
 
 ### 🛡️ The Watcher
@@ -44,7 +44,7 @@ Summon a **guardian** that lives at your base. While you're offline it **hunts d
 grows stronger with your loyalty tier. Fully configurable mob type, health, damage and guard range.
 
 ### 🌳 Loyalty
-Your login streak becomes a visible **shrine floating above your base**, showing your tier —
+Your login streak becomes a visible **shrine floating above your base**, showing your tier - 
 Newcomer → Regular → Devoted → Loyal → Legend. Progression you can actually see and show off.
 
 ### 📖 Guestbook & gifts
@@ -57,12 +57,12 @@ it's due, then finds you on login.
 
 ### 🎁 Daily rewards, streaks & comeback bonus
 Escalating daily rewards with streak milestones, plus a **welcome-back bonus that scales with how long
-you were gone** — the nudge that pulls lapsed players back. Rewards are items, XP or console commands,
+you were gone** - the nudge that pulls lapsed players back. Rewards are items, XP or console commands,
 so you can hand out money, ranks or crate keys through any plugin you already run.
 
 ### 🎬 Return Tour
 A cinematic camera sweep around your home when you come back. Your gamemode and exact position are
-always restored — even if you disconnect mid-tour.
+always restored - even if you disconnect mid-tour.
 
 ### 📱 Discord alerts
 Get a **real-world ping** the moment someone turns up at your base while you're offline. Each player
@@ -71,7 +71,7 @@ Only genuine `discord.com` webhook URLs are accepted, so a player can't aim your
 internal address.
 
 ### ⏳ Idle rewards
-A small trickle accrues while you're away and is handed over the second you return — capped, so
+A small trickle accrues while you're away and is handed over the second you return - capped, so
 disappearing for a month doesn't pay out a fortune.
 
 ### 📚 Your journal
@@ -79,11 +79,11 @@ The server quietly writes your story: your first diamond, your first ancient deb
 felled, every death. Read it back with `/wywa journal`.
 
 ### ⏰ Reminders
-`/wywa remind 2h feed the animals` — delivered the moment it's due if you're online, or waiting for
+`/wywa remind 2h feed the animals` - delivered the moment it's due if you're online, or waiting for
 you at login if you're not.
 
 ### 🗂️ Home GUI
-One clickable menu (`/wywa`) tying it all together — Gazette, daily reward, loyalty, guestbook,
+One clickable menu (`/wywa`) tying it all together - Gazette, daily reward, loyalty, guestbook,
 Watcher, base and tour.
 
 Plus: who logged on while you were away (new players flagged), who came near your base, how many
@@ -99,7 +99,7 @@ No dependencies required.
 
 ## Commands
 
-Base command: `/wywa` — alias `/away`. Running it with no arguments opens the Home GUI.
+Base command: `/wywa` - alias `/away`. Running it with no arguments opens the Home GUI.
 
 | Command | Description |
 |---|---|
@@ -136,7 +136,7 @@ min-away-seconds: 120         # skip the recap for quick relogs
 base:
   radius: 24                  # how close counts as "near your base"
 watcher:
-  mob-type: IRON_GOLEM        # tameable mobs (WOLF/CAT) will NOT chase intruders — see below
+  mob-type: IRON_GOLEM        # tameable mobs (WOLF/CAT) will NOT chase intruders - see below
   invulnerable: true
   guard-range: 16
 loyalty:
@@ -172,7 +172,7 @@ journal:
 Requires **Java 21+** (the runtime Minecraft itself requires from 1.20.5 onward).
 
 Automatically verified by booting a real server per version and exercising the plugin in-game on:
-**1.20.6**, **1.21.1**, **1.21.4** and **1.21.11** — all loading cleanly with no errors. Versions
+**1.20.6**, **1.21.1**, **1.21.4** and **1.21.11** - all loading cleanly with no errors. Versions
 between those are expected to work but have not been individually tested.
 
 ## Building from source
@@ -186,7 +186,7 @@ mvn clean package
 
 ## Roadmap
 
-The original roadmap is complete — Discord alerts, idle rewards, the journal and reminders all
+The original roadmap is complete - Discord alerts, idle rewards, the journal and reminders all
 shipped in 1.1.0. Ideas still on the table:
 
 - 🌾 Report crop growth, breeding and furnace output finished while you were away.
@@ -200,4 +200,4 @@ shipped in 1.1.0. Ideas still on the table:
 
 ## License
 
-Released under the [MIT License](LICENSE) — © 2026 Rex Micky · Rex's Studio.
+Released under the [MIT License](LICENSE) - © 2026 Rex Micky · Rex's Studio.

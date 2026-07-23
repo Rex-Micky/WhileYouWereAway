@@ -40,7 +40,7 @@ public class DiscordService {
         return plugin.getConfig().getBoolean("discord.enabled", false);
     }
 
-    /** Fire an alert for this player — their own webhook if set, else the server's. */
+    /** Fire an alert for this player - their own webhook if set, else the server's. */
     public void alert(PlayerData owner, String content) {
         if (!enabled()) return;
         String url = owner.getDiscordWebhook();
@@ -71,7 +71,7 @@ public class DiscordService {
     }
 
     /**
-     * JSON-escape, and defuse mass pings — a visitor's name should never be able to
+     * JSON-escape, and defuse mass pings - a visitor's name should never be able to
      * make the plugin ping @everyone in someone's server.
      */
     private static String escape(String s) {

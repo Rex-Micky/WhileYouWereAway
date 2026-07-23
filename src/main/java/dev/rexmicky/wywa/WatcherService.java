@@ -19,7 +19,7 @@ import org.bukkit.entity.Wolf;
 import org.bukkit.persistence.PersistentDataType;
 
 /**
- * The Watcher — a guardian that lives at your base, hunts intruders while
+ * The Watcher - a guardian that lives at your base, hunts intruders while
  * you're offline, and grows stronger with your loyalty.
  *
  * The mob type is configurable. It defaults to IRON_GOLEM because tamed
@@ -90,7 +90,7 @@ public class WatcherService {
         guard.setGlowing(true);
         guard.setInvulnerable(plugin.getConfig().getBoolean("watcher.invulnerable", true));
 
-        // Only tame mobs that can be tamed — and note this makes them owner-defensive.
+        // Only tame mobs that can be tamed - and note this makes them owner-defensive.
         if (guard instanceof Tameable tameable && owner != null) {
             tameable.setTamed(true);
             tameable.setOwner(owner);
@@ -136,7 +136,7 @@ public class WatcherService {
             if (!(Bukkit.getEntity(d.getWatcherEntity()) instanceof LivingEntity guard) || !guard.isValid()) continue;
             if (!(guard instanceof Mob mob)) continue;
 
-            if (Bukkit.getPlayer(d.getUuid()) != null) {   // owner online — stand down
+            if (Bukkit.getPlayer(d.getUuid()) != null) {   // owner online - stand down
                 mob.setTarget(null);
                 if (guard instanceof Wolf wolf) wolf.setAngry(false);
                 continue;

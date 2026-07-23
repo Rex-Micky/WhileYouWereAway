@@ -14,7 +14,7 @@ import java.util.Map;
 import java.util.UUID;
 
 /**
- * "The Gazette" — renders a player's while-you-were-away recap as a written
+ * "The Gazette" - renders a player's while-you-were-away recap as a written
  * newspaper (headlines, not chat lines) and opens it on login.
  */
 public class ChronicleService {

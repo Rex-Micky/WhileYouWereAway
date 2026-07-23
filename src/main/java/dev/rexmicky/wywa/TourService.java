@@ -13,7 +13,7 @@ import java.util.Map;
 import java.util.UUID;
 
 /**
- * A short cinematic "welcome home" — flies the camera (spectator) around the
+ * A short cinematic "welcome home" - flies the camera (spectator) around the
  * player's base, then restores their exact gamemode and position. Restore is
  * guaranteed on completion, disconnect or death.
  */
@@ -75,7 +75,7 @@ public class TourService {
         if (player.isOnline()) plugin.send(player, "tour-done");
     }
 
-    /** Restore the player immediately — used on completion, quit or death. */
+    /** Restore the player immediately - used on completion, quit or death. */
     public void abort(Player player) {
         Restore r = active.remove(player.getUniqueId());
         if (r == null) return;

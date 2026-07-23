@@ -14,7 +14,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.Arrays;
 
-/** The "Home" hub — one clickable menu linking every While-You-Were-Away feature. */
+/** The "Home" hub - one clickable menu linking every While-You-Were-Away feature. */
 public class HomeGui implements Listener {
 
     private static final class HomeHolder implements InventoryHolder {
@@ -40,7 +40,7 @@ public class HomeGui implements Listener {
         inv.setItem(12, icon(Material.EXPERIENCE_BOTTLE, "&aLoyalty", "&7" + plugin.getLoyalty().tierName(d.getCurrentStreak()), "&7Best streak: &f" + d.getLongestStreak()));
         inv.setItem(13, icon(Material.WRITABLE_BOOK, "&dGuestbook", "&7See who signed your base", "&7Entries: &f" + d.getGuestbook().size()));
         inv.setItem(14, icon(Material.BONE, "&6The Watcher", "&7Summon your guardian", "&7to your base"));
-        inv.setItem(15, icon(Material.COMPASS, "&fYour Base", d.hasBase() ? "&7" + d.getBaseWorld() + " " + (int) d.getBx() + "," + (int) d.getBy() + "," + (int) d.getBz() : "&7Not set — /wywa setbase"));
+        inv.setItem(15, icon(Material.COMPASS, "&fYour Base", d.hasBase() ? "&7" + d.getBaseWorld() + " " + (int) d.getBx() + "," + (int) d.getBy() + "," + (int) d.getBz() : "&7Not set - /wywa setbase"));
         inv.setItem(16, icon(Material.ENDER_EYE, "&5Return Tour", "&7Take a cinematic tour", "&7of your home"));
         inv.setItem(22, icon(Material.BOOK, "&6Your Journal", "&7Firsts, milestones and deaths", "&7Entries: &f" + d.getJournal().size()));
 

@@ -20,7 +20,7 @@ public class RecapService {
         PlayerData d = plugin.getStore().get(player.getUniqueId());
         d.setName(player.getName());
 
-        // First time we've ever seen this player leave — just welcome them.
+        // First time we've ever seen this player leave - just welcome them.
         if (d.getLastLogout() == 0) {
             plugin.send(player, "welcome-first", "player", player.getName());
             d.clearPending();
@@ -29,7 +29,7 @@ public class RecapService {
 
         long away = System.currentTimeMillis() - d.getLastLogout();
         long minAway = plugin.getConfig().getLong("min-away-seconds", 120) * 1000L;
-        if (away < minAway) {          // quick relog — don't nag
+        if (away < minAway) {          // quick relog - don't nag
             d.clearPending();
             return;
         }

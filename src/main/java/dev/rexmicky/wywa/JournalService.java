@@ -4,7 +4,7 @@ import org.bukkit.entity.Player;
 
 import java.util.List;
 
-/** The player's own story — firsts and milestones, written automatically as they happen. */
+/** The player's own story - firsts and milestones, written automatically as they happen. */
 public class JournalService {
 
     private final WhileYouWereAwayPlugin plugin;
@@ -24,7 +24,7 @@ public class JournalService {
         d.addJournalEntry(category, text, plugin.getConfig().getInt("journal.max-entries", 100));
     }
 
-    /** Record a milestone only if it hasn't been written before — for genuine "firsts". */
+    /** Record a milestone only if it hasn't been written before - for genuine "firsts". */
     public void recordOnce(Player player, String category, String text) {
         if (!enabled()) return;
         PlayerData d = plugin.getStore().get(player.getUniqueId());

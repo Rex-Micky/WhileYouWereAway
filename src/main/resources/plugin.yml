@@ -8,7 +8,7 @@ description: On login, get a personalized recap of everything that happened whil
 
 commands:
   wywa:
-    description: While You Were Away — set your base, send mail, and more.
+    description: While You Were Away - set your base, send mail, and more.
     usage: /wywa <setbase|mail|base|reload>
     aliases: [away]
 

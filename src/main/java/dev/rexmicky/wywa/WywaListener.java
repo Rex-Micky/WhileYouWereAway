@@ -67,7 +67,7 @@ public class WywaListener implements Listener {
         plugin.getStore().save();
     }
 
-    // --- journal: the player's story, written as it happens ---------------------
+    // Journal: the player's story, written as it happens
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onAdvancement(PlayerAdvancementDoneEvent event) {

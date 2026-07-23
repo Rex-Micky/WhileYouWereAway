@@ -148,6 +148,6 @@ public class PlayerData {
         joinedWhileAway.clear();
         newPlayersWhileAway.clear();
         baseVisits.clear();
-        // mail is intentionally NOT cleared here — future-dated letters survive until due.
+        // mail is intentionally NOT cleared here - future-dated letters survive until due.
     }
 }

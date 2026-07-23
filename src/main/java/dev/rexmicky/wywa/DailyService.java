@@ -24,7 +24,7 @@ public class DailyService {
         return enabled() && !LocalDate.now().toString().equals(d.getLastClaimDate());
     }
 
-    /** Called after login — nudges the player if today's reward is waiting. */
+    /** Called after login - nudges the player if today's reward is waiting. */
     public void notifyIfAvailable(Player player) {
         PlayerData d = plugin.getStore().get(player.getUniqueId());
         if (isAvailable(d)) {

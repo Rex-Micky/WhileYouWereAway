@@ -9,7 +9,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.Map;
 
 /**
- * Grants a reward defined by a config section — items, XP and/or console commands.
+ * Grants a reward defined by a config section - items, XP and/or console commands.
  * Reused by daily rewards, milestones, the comeback bonus and away-rewards.
  */
 public class RewardService {
@@ -42,7 +42,7 @@ public class RewardService {
     }
 
     /**
-     * Give a reward multiplied by a factor — used by idle rewards (per-hour x hours).
+     * Give a reward multiplied by a factor - used by idle rewards (per-hour x hours).
      * Items are handed out one batch at a time so stacks split naturally instead of
      * building an oversized ItemStack. Commands run once, not once per multiple.
      */

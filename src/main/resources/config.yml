@@ -1,5 +1,5 @@
 # ============================================================
-#  WhileYouWereAway  —  by Rex's Studio (studio.rexmicky.dev)
+#  WhileYouWereAway - by Rex's Studio (studio.rexmicky.dev)
 #  Log in and get a personalized recap of everything that
 #  happened on the server while you were offline.
 # ============================================================
@@ -22,7 +22,7 @@ recap:
 # --- Daily rewards & login streaks ---------------------------------------
 # Reward players for logging in each day. Keep a streak going for bigger
 # rewards; miss a day and it resets. Rewards are items, XP, or console
-# commands — so you can hand out money, ranks or crate keys via any plugin.
+# commands - so you can hand out money, ranks or crate keys via any plugin.
 daily-rewards:
   enabled: true
   reset-on-miss: true         # miss a day → streak resets to 1
@@ -40,11 +40,11 @@ daily-rewards:
       message: "&6A full week! Big bonus unlocked."
       items: ["DIAMOND_BLOCK:1"]
     30:
-      message: "&d30 days straight — you're a legend."
+      message: "&d30 days straight - you're a legend."
       items: ["NETHERITE_INGOT:1"]
 
 # --- Comeback bonus ------------------------------------------------------
-# A welcome-back reward that scales with how long you were gone — the nudge
+# A welcome-back reward that scales with how long you were gone - the nudge
 # that pulls lapsed players back. You get the highest tier you qualify for.
 comeback:
   enabled: true
@@ -53,14 +53,14 @@ comeback:
       message: "&bWelcome back! Here's a little something for returning."
       items: ["EXPERIENCE_BOTTLE:8"]
     7:
-      message: "&bIt's been a while — welcome back!"
+      message: "&bIt's been a while - welcome back!"
       items: ["DIAMOND:3"]
     30:
       message: "&bA legend returns. Welcome home!"
       items: ["DIAMOND_BLOCK:1"]
 
 # --- The Gazette: your recap delivered as a newspaper --------------------
-# Turns the login recap into a written book with headlines — far more
+# Turns the login recap into a written book with headlines - far more
 # memorable than chat lines. /wywa chronicle reopens the latest edition.
 chronicle:
   enabled: true
@@ -144,19 +144,19 @@ messages:
   mail-line: "&7      &d✉ &f{from}&7: &f{message}"
   base-set: "&aYour base is now set to your current location."
   mail-sent: "&aMail delivered to &f{player}&a."
-  mail-queued: "&aMail queued — &f{player}&a will see it when they next log in."
+  mail-queued: "&aMail queued - &f{player}&a will see it when they next log in."
   mail-usage: "&cUsage: /wywa mail <player> <message>"
   mail-self: "&cYou can't send mail to yourself."
   base-info: "&7Your base: &f{world} {x}, {y}, {z}"
   no-base: "&7You haven't set a base yet. Stand where your base is and use &f/wywa setbase&7."
   reloaded: "&aConfiguration reloaded."
   usage: "&7/wywa &8- &7home | daily | streak | chronicle | journal | guestbook | sign | gift | watcher | tour | setbase | mail | letter | futureself | remind | discord"
-  daily-available: "&e☀ Your daily reward is ready! Streak: &f{streak} &e— claim it with &f/wywa daily"
+  daily-available: "&e☀ Your daily reward is ready! Streak: &f{streak} &e - claim it with &f/wywa daily"
   daily-claimed: "&aDaily reward claimed! Login streak: &f{streak} &7(best: {longest})"
   daily-already: "&7You've already claimed today's reward. Come back tomorrow!"
   daily-disabled: "&7Daily rewards are disabled on this server."
   streak-info: "&bLogin streak: &f{streak} &7| Best: &f{longest} &7| Total days claimed: &f{total}"
-  chronicle-ready: "&e📰 A new edition of The Gazette is ready — &f/wywa chronicle &eto read it."
+  chronicle-ready: "&e📰 A new edition of The Gazette is ready - &f/wywa chronicle &eto read it."
   chronicle-none: "&7There's no Gazette edition waiting for you right now."
   # Guestbook & gifts
   sign-usage: "&cUsage: /wywa sign <message> &7(while standing at someone's base)"
@@ -164,7 +164,7 @@ messages:
   guestbook-signed: "&aYou signed &f{player}&a's guestbook."
   guestbook-empty: "&7Your guestbook is empty. Visitors can sign it with &f/wywa sign&7."
   guestbook-header: "&d&lYour guestbook &7({count} entries):"
-  guestbook-entry: "&7 &8• &f{from} &7— &f{message} &8({ago})"
+  guestbook-entry: "&7 &8• &f{from} &7 - &f{message} &8({ago})"
   gift-usage: "&cUsage: /wywa gift <player> &7(holding the item to give)"
   gift-none: "&cHold the item you want to gift in your main hand."
   gift-self: "&cYou can't gift to yourself."
@@ -186,13 +186,13 @@ messages:
   bad-duration: "&cInvalid time. Try &f30m&c, &f2h&c, &f7d&c, &f1w&c."
   # Reminders
   remind-usage: "&cUsage: /wywa remind <delay> <message> &7(e.g. 2h feed the animals)"
-  remind-set: "&aReminder set — I'll nudge you in &f{when}&a."
+  remind-set: "&aReminder set - I'll nudge you in &f{when}&a."
   # Idle rewards
   idle-granted: "&e⏳ You earned &f{hours}h &eof idle rewards while you were away."
   # Journal
   journal-header: "&6&lYour journal &7({count} entries):"
   journal-entry: "&7 &8• &6{category}&8: &f{text} &8({ago})"
-  journal-empty: "&7Your journal is empty — go and do something worth writing down."
+  journal-empty: "&7Your journal is empty - go and do something worth writing down."
   journal-disabled: "&7The journal is disabled on this server."
   # Discord alerts. This one is sent TO Discord, so it deliberately uses no colour codes.
   discord-intrusion: "🚨 **{visitor}** was spotted at **{owner}**'s base in `{world}` while they were offline."
