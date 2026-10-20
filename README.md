@@ -8,10 +8,11 @@ recap also opens as a written book called The Gazette. It is on
 
 ## Features
 
-- Base and Watcher: players set a base with `/wywa setbase`. Anyone within 24 blocks of it is
-  logged as a visitor while the owner is offline. `/wywa watcher` puts an iron golem at the base
-  that attacks other players within 16 blocks while the owner is offline. It gets stronger with the
-  owner's loyalty tier.
+- Base and Watcher: every player has a base. If a player logs out without one, the plugin puts it
+  at their bed spawn, or where they logged out if they have no bed. `/wywa setbase` moves it to
+  where the player is standing. Anyone within 24 blocks of a base is logged as a visitor while the
+  owner is offline. `/wywa watcher` puts an iron golem at the base that attacks other players
+  within 16 blocks while the owner is offline. It gets stronger with the owner's loyalty tier.
 - Daily rewards and streaks: `/wywa daily` pays out once a day, with bonuses at 3, 7 and 30 days.
   Players coming back after 2, 7 or 30 days get a welcome-back reward.
 - Loyalty: the daily reward streak sets a tier from Newcomer to Legend, shown as floating text at
@@ -49,6 +50,14 @@ other plugins. All of it, and every message, is set in `config.yml`.
 
 ## Notes
 
+Bases are watched for every player by default, not only for players who used `/wywa setbase`,
+and there is no setting to turn the automatic base off. A server shutdown counts as a logout for
+everyone online. At an automatic base, visitors show up in the owner's recap, can sign the owner's
+guestbook and trigger a Discord alert when alerts are on. The alert names the visitor, the owner
+and the world, but not the coordinates. When a player logs in near their base, the plugin also
+puts a floating shrine with their name and loyalty tier above it, which shows other players where
+the base is. Set `loyalty.shrine` to false if you don't want that.
+
 The Watcher defaults to `IRON_GOLEM`. Wolves and cats get tamed to the owner, and tamed mobs ignore
 the target the plugin gives them, so they would just sit there.
 
@@ -59,8 +68,10 @@ the config is the safer option.
 ## Installing and building
 
 Put the jar from the [releases page](https://github.com/Rex-Micky/WhileYouWereAway/releases) in
-`plugins/` and restart. It needs Spigot or Paper 1.20.6 to 1.21.x on Java 21. I have tested it
-in-game on 1.20.6, 1.21.1, 1.21.4 and 1.21.11. To build it, run `mvn clean package` with JDK 21.
+`plugins/` and restart. It needs Paper 1.20.6 to 1.21.x on Java 21. It does not work properly on
+Spigot, because the shrine uses a text method that only Paper has. With the default config,
+`/wywa setbase` stops with an error there. I have tested it in-game on 1.20.6, 1.21.1, 1.21.4 and
+1.21.11. To build it, run `mvn clean package` with JDK 21.
 
 Questions and bug reports: [Discord](https://discord.gg/pfF5TpQ9UE) or the issue tracker here.
 MIT licensed, see [LICENSE](LICENSE).
